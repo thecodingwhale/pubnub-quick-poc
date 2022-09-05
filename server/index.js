@@ -1,8 +1,10 @@
+require('dotenv').config()
+
 const PubNub = require('pubnub')
 
 const pubnub = new PubNub({
-  publishKey: 'pub-c-934f960b-4384-4573-b5b7-fd5f629c51fe',
-  subscribeKey: 'sub-c-b84eda9b-df05-4c21-8a10-4e51fdaccc39',
+  publishKey: process.env.PUBNUB_PUBLISH_KEY,
+  subscribeKey: process.env.PUBNUB_SUBSCRIBE_KEY,
   userId: 'myUniqueUserId',
 })
 
