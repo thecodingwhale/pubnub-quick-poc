@@ -9,6 +9,14 @@ const pubnub = new PubNub({
 })
 
 function Chat() {
+  useEffect(() => {
+    if (!('Notification' in window)) {
+      console.log('This browser does not support desktop notification')
+    } else {
+      Notification.requestPermission()
+    }
+  }, [])
+
   const pubnub = usePubNub()
   const [channels] = useState(['hello_world'])
   const [messages, addMessage] = useState([])
@@ -19,6 +27,14 @@ function Chat() {
     if (typeof message === 'object' || message.hasOwnProperty('description')) {
       const description = message.description
       addMessage((messages) => [...messages, description])
+
+      const options = {
+        body: 'This is the body of the Notification',
+        icon: 'https://images.pexels.com/photos/853168/pexels-photo-853168.jpeg?    auto=compress&cs=tinysrgb&dpr=1&w=500',
+        dir: 'ltr',
+      }
+      const notification = new Notification('Notification Demo', options)
+      console.log('notification: ', notification)
     }
   }
 
@@ -32,7 +48,9 @@ function Chat() {
             description: message,
           },
         })
-        .then(() => setMessage(''))
+        .then(() => {
+          setMessage('')
+        })
     }
   }
 
